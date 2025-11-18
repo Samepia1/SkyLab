@@ -725,12 +725,12 @@ void proportional_derivative_stabilization_roll(int16_t roll_val, int16_t error_
 		derivative_val = 0;
 	}
 	else{
-		 derivative_val = (int)0.85*error_val;
+		 derivative_val = (int)0.3*error_val;
 	}
-	int16_t base_val = 1350;
+	int16_t base_val = 1500;
 
 	if(roll_val>=0){
-		proportional_val = (int)((0.080*roll_val));
+		proportional_val = (int)((0.050*roll_val));
 
 		  TIM2->CCR1 = base_val-derivative_val;
 		  TIM2->CCR2 = base_val+proportional_val;
@@ -739,7 +739,7 @@ void proportional_derivative_stabilization_roll(int16_t roll_val, int16_t error_
 	}
 	else{
 		roll_val = roll_val * (-1);
-		proportional_val = (int)(0.080*roll_val);
+		proportional_val = (int)(0.050*roll_val);
 		TIM2->CCR1 = base_val+proportional_val;
 		TIM2->CCR2 = base_val-derivative_val;
 		TIM2->CCR3 = base_val-derivative_val;
