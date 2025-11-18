@@ -130,7 +130,7 @@ int main(void)
   int16_t derivative_error;
 
 
-  motor_calibration(1000, 2000);
+//  motor_calibration(1000, 2000);
   TIM2->CCR1 = 1100;
   TIM2->CCR2 = 1100;
   TIM2->CCR3 = 1100;
@@ -725,25 +725,25 @@ void proportional_derivative_stabilization_roll(int16_t roll_val, int16_t error_
 		derivative_val = 0;
 	}
 	else{
-		 derivative_val = (int)0.7*error_val;
+		 derivative_val = (int)0.85*error_val;
 	}
-	int16_t base_val = 1300;
+	int16_t base_val = 1350;
 
 	if(roll_val>=0){
 		proportional_val = (int)((0.080*roll_val));
 
-		  TIM2->CCR1 = base_val;
-		  TIM2->CCR2 = base_val+proportional_val+derivative_val;
-		  TIM2->CCR3 = base_val+proportional_val+derivative_val;
-		  TIM2->CCR4 = base_val;
+		  TIM2->CCR1 = base_val-derivative_val;
+		  TIM2->CCR2 = base_val+proportional_val;
+		  TIM2->CCR3 = base_val+proportional_val;
+		  TIM2->CCR4 = base_val-derivative_val;
 	}
 	else{
 		roll_val = roll_val * (-1);
 		proportional_val = (int)(0.080*roll_val);
-		TIM2->CCR1 = base_val+proportional_val+derivative_val;
-		TIM2->CCR2 = base_val;
-		TIM2->CCR3 = base_val;
-		TIM2->CCR4 = base_val+proportional_val+derivative_val;
+		TIM2->CCR1 = base_val+proportional_val;
+		TIM2->CCR2 = base_val-derivative_val;
+		TIM2->CCR3 = base_val-derivative_val;
+		TIM2->CCR4 = base_val+proportional_val;
 	}
 }
 
